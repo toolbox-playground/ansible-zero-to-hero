@@ -10,6 +10,7 @@ venv/
 ENV/
 *.env
 *.venv
+*-env
 
 # pip cache
 pip-log.txt

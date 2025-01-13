@@ -22,6 +22,10 @@ Instalação Global (Recomendado para ambientes de produção)
 ```
 pip install ansible
 ```
+Em caso de erro por path, execute:
+```
+pip install ansible --prefix "C:\PythonLibs"
+```
 
 ### Instalação em um Ambiente Virtual (Recomendado para desenvolvimento)
 Crie um ambiente virtual:
@@ -51,51 +55,18 @@ Após a instalação, verifique se o Ansible foi instalado corretamente:
 ansible --version
 ```
 
-⚙️ Configuração Inicial do Ansible
-Crie um diretório de configuração (caso não exista):
-
-bash
-Copiar código
-mkdir -p ~/.ansible
-Crie um inventário Ansible simples:
-
-bash
-Copiar código
-nano ~/ansible_hosts
-Adicione os seguintes conteúdos:
-
-ini
-Copiar código
-[servidores]
-servidor1 ansible_host=192.168.1.10 ansible_user=usuario ansible_ssh_private_key_file=/caminho/chave.pem
-Teste a configuração do Ansible:
-
-bash
-Copiar código
-ansible all -i ~/ansible_hosts -m ping
-🛠️ Atualizando o Ansible
-Para manter o Ansible sempre atualizado, execute:
-
-bash
-Copiar código
-pip install --upgrade ansible
-🧹 Desinstalando o Ansible
+### 🧹 Desinstalando o Ansible
 Se precisar desinstalar o Ansible:
 
-bash
-Copiar código
+```
 pip uninstall ansible
+```
+
 Se estiver usando um ambiente virtual, basta desativá-lo:
-
-bash
-Copiar código
+```
 deactivate
-Para excluir o ambiente virtual:
+```
 
-bash
-Copiar código
+```
 rm -rf ansible-env
-📚 Recursos Adicionais
-Documentação Oficial do Ansible
-Pip Documentation
-Python Virtual Environments
+```
