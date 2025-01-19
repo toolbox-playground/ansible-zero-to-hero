@@ -1,4 +1,4 @@
-![Ansible](imgs/logo.png "Ansible - From Zero to Hero")
+![Ansible](imgs/logo_curso.png "Ansible - From Zero to Hero")
 
 # Ansible - From Zero to Hero
 Este é o repositório oficial do curso de Ansible da Toolbox.

@@ -85,3 +85,5 @@ collections/
 roles/*/meta/.galaxy_install_info
 roles/*/molecule/
 roles/*/tests/output.xml
+
+.DS_Store
