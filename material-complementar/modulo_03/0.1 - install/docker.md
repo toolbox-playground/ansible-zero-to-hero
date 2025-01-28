@@ -23,14 +23,15 @@ Você pode executar o contêiner Docker do Ansible interativamente para executar
 ### Em Sistemas Unix/Linux/MacOS
 
 ```bash
-docker run --rm -it -v $(pwd):/trilha-estudo ansible/ansible bash
+docker network create ansible-net
+docker run --rm -it -v $(pwd):/workspace ansible/ansible bash
 ```
 
 ### Em Sistemas Windows (PowerShell)
 
 ```bash
 docker network create ansible-net
-docker run --rm -it --network ansible-net -v ${PWD}:/trilha-estudo alpine/ansible bash 
+docker run --rm -it --network ansible-net -v ${PWD}:/workspace alpine/ansible bash 
 ```
 
 - `--rm`: Remove o contêiner após ele sair.

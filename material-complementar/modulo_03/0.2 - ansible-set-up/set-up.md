@@ -39,43 +39,19 @@ Inicie dois contêineres para simular as duas máquinas:
 docker run -d --name machine1 --network ansible-net -p 2222:22 ansible-node
 docker run -d --name machine2 --network ansible-net -p 3333:22 ansible-node
 
-2. Configurar o Inventário do Ansible
 
-Crie um arquivo de inventário chamado inventory.ini com as informações dos contêineres:
-
-[machines]
-machine1 ansible_host=127.0.0.1 ansible_port=2222 ansible_user=root ansible_password=password
-machine2 ansible_host=127.0.0.1 ansible_port=3333 ansible_user=root ansible_password=password
-
-3. Testar Conectividade
-
-Antes de executar um playbook, teste a conectividade com as máquinas usando o módulo ping do Ansible:
-
-ansible -i inventory.ini machines -m ping
-
-Se estiver tudo configurado corretamente, você verá uma resposta do tipo pong.
-
-4. Criar e Executar um Playbook
-
-Crie um playbook de teste chamado playbook.yml:
-
-- name: Test playbook
-  hosts: machines
-  tasks:
-    - name: Atualizar e fazer upgrade dos pacotes
-      apt:
-        update_cache: yes
-        upgrade: dist
-
-Execute o playbook com o comando:
-
-ansible-playbook -i inventory.ini playbook.yml
-
-5. Limpeza (Opcional)
-
-Pare e remova os contêineres quando não forem mais necessários:
+No container principal, execute os comandos:
 
 ```
-docker stop machine1 machine2
-docker rm machine1 machine2
+ping machine1
+ping machine2
+
+ssh root@machine1
+ssh root@machine2
 ```
+
+#docker run -d --name machine1 --network ansible-net -p 2222:22 ansible-node /bin/sh -c "echo 'machine1' > /etc/hostname && snap && hostname"
+
+##
+docker run -it machine1 bash
+docker exec -it machine1 /bin/bash 
