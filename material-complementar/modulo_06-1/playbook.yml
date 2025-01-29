@@ -1,0 +1,16 @@
+---
+- name: Configure Nginx
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: "{{ package_name }}"
+        state: present
+
+    - name: Ensure Nginx is running
+      ansible.builtin.service:
+        name: "{{ service_name }}"
+        state: started
+        enabled: true
