@@ -1,20 +1,27 @@
-Ansible Console
+## Ansible Console
 O ansible-console é uma ferramenta interativa que permite executar múltiplos comandos ad hoc em uma sessão persistente.
-Características:
+
+
+### Características:
 Fornece um shell interativo para executar comandos Ansible
 Mantém o contexto entre comandos (inventário, conexões)
 Útil para testes e depuração
+
 Uso básico:
+
 Iniciar o console:
 
 bash
+
 ansible-console
 Executar comandos dentro do console:
-text
+
+
 webservers.example.com | BECOME» apt name=nginx state=present
 webservers.example.com | BECOME» service name=nginx state=started
 
-Vantagens:
+### Vantagens:
+
 Reduz a sobrecarga de estabelecer conexões repetidamente
 Permite exploração interativa do ambiente Ansible
 Facilita a execução de sequências de comandos relacionados
