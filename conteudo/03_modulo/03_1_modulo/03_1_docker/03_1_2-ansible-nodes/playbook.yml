@@ -1,0 +1,7 @@
+- name: Test playbook
+  hosts: machines
+  tasks:
+    - name: Atualizar e fazer upgrade dos pacotes
+      apt:
+        update_cache: yes
+        upgrade: dist

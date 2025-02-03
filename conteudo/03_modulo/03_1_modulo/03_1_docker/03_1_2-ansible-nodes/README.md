@@ -5,8 +5,8 @@
 Crie um arquivo de inventário chamado inventory.ini com as informações dos contêineres:
 
 [machines]
-machine1 ansible_host=127.0.0.1 ansible_port=2222 ansible_user=root ansible_password=password
-machine2 ansible_host=127.0.0.1 ansible_port=3333 ansible_user=root ansible_password=password
+machine1 ansible_host=machine1 ansible_port=2222 ansible_user=root ansible_password=password
+machine2 ansible_host=machine2 ansible_port=3333 ansible_user=root ansible_password=password
 
 3. Testar Conectividade
 
@@ -30,7 +30,10 @@ Crie um playbook de teste chamado playbook.yml:
 
 Execute o playbook com o comando:
 
-ansible-playbook -i inventory.ini playbook.yml
+```
+ ansible all -m ping -i inventory.yml
+ ansible-playbook -i inventory.ini playbook.yml
+```
 
 5. Limpeza (Opcional)
 

@@ -24,7 +24,7 @@ Você pode executar o contêiner Docker do Ansible interativamente para executar
 
 ```bash
 docker network create ansible-net
-docker run --rm -it -v $(pwd):/workspace ansible/ansible bash
+docker run --rm -it -v $(pwd):/workspace alpine/ansible bash
 ```
 
 ### Em Sistemas Windows (PowerShell)
@@ -76,7 +76,7 @@ pip install <nome-do-pacote>
 Para tornar essas mudanças persistentes, pode ser necessário criar uma imagem Docker personalizada com suas dependências adicionais. Aqui está um exemplo de Dockerfile:
 
 ```Dockerfile
-FROM ansible/ansible:latest
+FROM alpine/ansible:latest
 RUN pip install <nome-do-pacote>
 ```
 
