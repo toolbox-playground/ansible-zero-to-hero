@@ -1,57 +1,119 @@
-### Simulação de Máquinas com Docker e Uso do Ansible
+# Usando o Ansible via Imagem Docker
 
-Este tutorial explica como simular duas máquinas utilizando contêineres Docker e acessar esses contêineres com o Ansible para executar um playbook.
+Este guia fornece instruções sobre como usar o Ansible via uma imagem Docker para tarefas de gerenciamento de configuração e automação.
 
-1. Configurar Contêineres Docker como Máquinas
+## Pré-requisitos
 
-Dockerfile (opcional)
+- Docker instalado na sua máquina ([Instalar Docker](https://docs.docker.com/get-docker/))
+- Conhecimento básico de Ansible
+- Uma conexão de internet funcional
 
-Crie um arquivo Dockerfile para instalar o SSH e o Python (requisitos do Ansible):
-```
-FROM ubuntu:latest
+## Baixando a Imagem Docker
 
-RUN apt-get update && \
-    apt-get install -y openssh-server python3 && \
-    mkdir /var/run/sshd && \
-    echo 'root:password' | chpasswd
+Baixe a imagem oficial do Ansible Docker:
 
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
-    echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
-
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+```bash
+docker pull alpine/ansible
 ```
 
-Crie a rede para as imagens
-```
+## Executando o Contêiner Docker do Ansible
+
+Você pode executar o contêiner Docker do Ansible interativamente para executar comandos ou playbooks. Aqui está como fazer:
+
+### Em Sistemas Unix/Linux/MacOS
+
+```bash
 docker network create ansible-net
+docker run --rm -it -v $(pwd):/workspace ansible/ansible bash
 ```
 
-Construa a imagem:
-```
-docker build -t ansible-node .
-```
+### Em Sistemas Windows (PowerShell)
 
-Executar os Contêineres
-
-Inicie dois contêineres para simular as duas máquinas:
-
-docker run -d --name machine1 --network ansible-net -p 2222:22 ansible-node
-docker run -d --name machine2 --network ansible-net -p 3333:22 ansible-node
-
-
-No container principal, execute os comandos:
-
-```
-ping machine1
-ping machine2
-
-ssh root@machine1
-ssh root@machine2
+```bash
+docker network create ansible-net
+docker run --rm -it --network ansible-net -v ${PWD}:/workspace alpine/ansible bash 
 ```
 
-#docker run -d --name machine1 --network ansible-net -p 2222:22 ansible-node /bin/sh -c "echo 'machine1' > /etc/hostname && snap && hostname"
+- `--rm`: Remove o contêiner após ele sair.
+- `-it`: Executa o contêiner em modo interativo.
+- `-v $(pwd):/workspace`: Monta o diretório atual em `/workspace` dentro do contêiner.
 
-##
-docker run -it machine1 bash
-docker exec -it machine1 /bin/bash 
+## Diretório de Trabalho
+
+Por padrão, seu diretório atual é montado em `/workspace` dentro do contêiner. Você pode colocar seus playbooks, arquivos de inventário e configurações do Ansible nesse diretório para usá-los dentro do contêiner.
+
+## Testando sua conexão SSH
+Execute os comandos, dentro da pasta workspace
+
+
+```
+apk update && apk add openssh-keygen
+chmod 600 id_rsa.pub
+ssh -i id_rsa seu_user@IP_EXTERNO
+```
+## Executando um Playbook Ansible
+
+Para executar um playbook do Ansible, siga estas etapas:
+
+1. Coloque seu playbook (`playbook.yml`) e arquivo de inventário (`inventory.ini`) no diretório atual.
+2. Execute o seguinte comando:
+
+   ```bash
+   docker run --rm -it -v $(pwd):/workspace ansible/ansible:latest ansible-playbook -i /workspace/inventory.ini /workspace/playbook.yml
+   ```
+
+## Instalando Dependências Adicionais
+
+Se seus playbooks exigirem pacotes Python ou dependências de sistema adicionais, você pode instalá-los no contêiner em execução. Por exemplo:
+
+```bash
+docker run --rm -it -v $(pwd):/workspace ansible/ansible:latest bash
+
+# Dentro do contêiner:
+pip install <nome-do-pacote>
+```
+
+Para tornar essas mudanças persistentes, pode ser necessário criar uma imagem Docker personalizada com suas dependências adicionais. Aqui está um exemplo de Dockerfile:
+
+```Dockerfile
+FROM ansible/ansible:latest
+RUN pip install <nome-do-pacote>
+```
+
+Construa e use a imagem personalizada:
+
+```bash
+docker build -t custom-ansible .
+docker run --rm -it -v $(pwd):/workspace custom-ansible bash
+```
+
+## Comandos Comuns
+
+### Verificar Versão do Ansible
+
+```bash
+ansible --version
+```
+
+### Testar Conectividade
+
+```bash
+ansible -i /workspace/inventory.ini all -m ping
+```
+
+### Executar Comando Ad-Hoc
+
+```bash
+ansible -i /workspace/inventory.ini all -m command -a "uptime"
+```
+
+## Limpando
+
+Como o contêiner é executado com `--rm`, ele será automaticamente limpo após sair. Certifique-se de que nenhum dado sensível permaneça no contêiner durante a execução.
+
+## Solução de Problemas
+
+- Certifique-se de que os caminhos do inventário e do playbook estão corretos.
+- Se houver problemas de permissão, tente usar `sudo` ao executar comandos Docker.
+
+Para mais assistência, consulte a [documentação do Ansible](https://docs.ansible.com/) ou a [documentação do Docker](https://docs.docker.com/).

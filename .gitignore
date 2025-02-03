@@ -11,6 +11,10 @@ ENV/
 *.env
 *.venv
 *-env
+*.pub
+*.ppk
+
+*id_rsa*
 
 # pip cache
 pip-log.txt

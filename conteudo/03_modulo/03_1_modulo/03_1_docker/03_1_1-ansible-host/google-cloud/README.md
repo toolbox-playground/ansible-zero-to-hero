@@ -38,4 +38,41 @@ Clique em "Iniciar meu período gratuito" para concluir a configuração de cobr
 
 ### 4. Acesse o projeto
 
-Acesse o projeto para o treinamento toolbox-sandbox
+Acesse o projeto para que você criou.
+
+### Configurando o SSH
+
+# 🚀 Configurando SSH para uma VM no Google Cloud (Windows)
+
+Se você está tentando conectar a uma VM do **Google Cloud** via **SSH no Windows** e recebeu o erro **"Permission denied (publickey)"**, siga este guia para corrigir o problema.
+
+---
+
+## 📌 1. Gerar uma Chave SSH no Windows
+
+Se você ainda não tem uma chave SSH, gere uma nova usando **PowerShell**:
+
+```powershell
+ssh-keygen -t rsa -b 2048 -f C:\workspace\id_rsa -C "seu_email@gmail.com"
+```
+
+## 2. Adicionar a Chave SSH à VM no Google Cloud
+
+```
+$publicKey = Get-Content -Raw "C:\workspace\id_rsa.pub"
+gcloud compute instances add-metadata instance-20250202-235554 --zone=us-central1-c --metadata "ssh-keys=seu_usuario:$publicKey"
+```
+
+## 3. Verificar se a Chave SSH foi Adicionada
+Para garantir que a chave foi salva corretamente na VM, execute:
+
+```
+gcloud compute instances describe instance-20250202-235554 --zone=us-central1-c --format="value(metadata.ssh-keys)"
+```
+
+## 4 Conectar-se à VM via SSH
+
+Agora, conecte-se à VM usando o SSH:
+
+```
+ssh -i C:\workspace\id_rsa seu_usuario@IP_EXTERNO
