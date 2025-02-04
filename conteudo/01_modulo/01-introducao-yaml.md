@@ -6,7 +6,7 @@
 ---
 # Nome do playbook
 - name: Configuração de um Servidor Web Apache
-  hosts: webservers
+  hosts: machines
   become: true  # Elevar privilégios para sudo
   vars:
     apache_packages:
