@@ -1,0 +1,20 @@
+---
+- name: Configure Apache
+  hosts: all
+  become: true
+  tasks:
+    - name: Update package list and upgrade packages
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install Apache
+      ansible.builtin.apt:
+        name: "{{ apache_package }}"
+        state: present
+
+    - name: Ensure Apache is running and enabled
+      ansible.builtin.service:
+        name: "{{ apache_package }}"
+        state: started
+        enabled: true
