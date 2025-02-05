@@ -1,0 +1,16 @@
+---
+- name: Instalar e configurar Nginx
+  hosts: machines
+  become: yes
+  tasks:
+    - name: Instalar Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Iniciar serviço Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+

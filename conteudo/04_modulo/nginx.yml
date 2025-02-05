@@ -1,16 +1,25 @@
 ---
-- name: Instalar e configurar Nginx
-  hosts: machines
+- name: Gerenciar usuários
+  hosts: all
   become: yes
+  vars:
+    novos_usuarios:
+      - nome: alice
+        grupo: desenvolvedores
+      - nome: bob
+        grupo: operacoes
   tasks:
-    - name: Instalar Nginx
-      apt:
-        name: nginx
+    - name: Criar grupos
+      group:
+        name: "{{ item }}"
         state: present
+      loop:
+        - desenvolvedores
+        - operacoes
 
-    - name: Iniciar serviço Nginx
-      service:
-        name: nginx
-        state: started
-        enabled: yes
-
+    - name: Criar usuários
+      user:
+        name: "{{ item.nome }}"
+        groups: "{{ item.grupo }}"
+        state: present
+      loop: "{{ novos_usuarios }}"
