@@ -57,7 +57,7 @@ Se estiver tudo configurado corretamente, você verá uma resposta do tipo pong.
 
 Crie um playbook de teste chamado nginx.yml:
 
- ansible-playbook -i inventory.ini nginx.yml
+ ansible-playbook machines -i inventory.ini nginx.yml
 
 5. Limpeza (Opcional)
 
