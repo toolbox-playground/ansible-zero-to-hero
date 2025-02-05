@@ -55,9 +55,9 @@ Se estiver tudo configurado corretamente, você verá uma resposta do tipo pong.
 
 4. Criar e Executar um Playbook
 
-Crie um playbook de teste chamado playbook.yml:
+Crie um playbook de teste chamado nginx.yml:
 
-ansible -i inventory.ini machines -m ping
+ ansible-playbook -i inventory.ini nginx.yml
 
 5. Limpeza (Opcional)
 
