@@ -1,3 +1,9 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # handlers file for mysql
+handlers:
+  - name: Reiniciar MySQL
+    service:
+      name: mysql
+      state: restarted
+    listen: "restart mysql"

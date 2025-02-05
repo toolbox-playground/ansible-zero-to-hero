@@ -1,3 +1,9 @@
 #SPDX-License-Identifier: MIT-0
 ---
-# vars file for mysql
+mysql_databases:
+  - name: myapp_db
+    encoding: utf8mb4
+    collation: utf8mb4_general_ci
+  - name: analytics_db
+    encoding: utf8
+    collation: utf8_general_ci
