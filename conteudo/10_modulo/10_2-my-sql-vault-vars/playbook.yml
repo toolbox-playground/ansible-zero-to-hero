@@ -1,0 +1,29 @@
+# Módulo 10 - Ansible Vault
+---
+- name: Example Playbook with Vault Variables
+  hosts: my_vm
+  become: yes
+  vars_files:
+    - vars.yaml
+
+  tasks:    
+    - name: Instalar MySQL Server
+      apt:
+        name: mysql-server
+        state: present
+
+    - name: Configurar senha root do MySQL
+      mysql_user:
+        name: root
+        password: "{{ mysql_root_password }}"
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Criar bancos de dados
+      mysql_db:
+        name: "{{ item.name }}"
+        encoding: "{{ item.encoding }}"
+        collation: "{{ item.collation }}"
+        state: present
+      loop: "{{ mysql_databases }}"
+
+

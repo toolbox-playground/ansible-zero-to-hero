@@ -1,8 +1,4 @@
-# 📖 Configuração do Nginx com Ansible Roles
-
-Este projeto contém uma **role do Ansible** chamada `nginx_setup`, responsável por instalar, configurar e garantir que o serviço Nginx esteja rodando corretamente nos servidores gerenciados.
-
----
+# 📖 Configuração do Nginx com MySQL 
 
 ## 🚀 Como Executar o Playbook
 
@@ -25,21 +21,17 @@ Excute para checkar a syntax
 ansible-playbook --syntax-check playbook.yml
 ```
 
+Encripitando senha
+```
+ansible-vault encrypt_string 'senha_secreta' --name 'db_password'
+```
+
+Rodando o ansible
 ```
 ansible-playbook -i inventory.ini playbook.yml
 ```
 
-Pulando tarefas com tags especificas
-```bash
-ansible-playbook playbook.yml --skip-tags "database"
+Testando nossa conexão com banco
 ```
-
-Listando todas as tags em um playbook
-```bash
-ansible-playbook playbook.yml --list-tags
+ansible -i hosts.ini my_vm -m mysql_db -a "name=test_db state=present login_user=root login_password={{ mysql_root_password }}"
 ```
-
-4. **Verifique se o Nginx está rodando nos servidores:**
-   ```
-   systemctl status nginx
-   ```
