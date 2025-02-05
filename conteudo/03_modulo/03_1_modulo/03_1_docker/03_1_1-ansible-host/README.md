@@ -73,7 +73,7 @@ Para executar um playbook do Ansible, siga estas etapas:
 Se seus playbooks exigirem pacotes Python ou dependências de sistema adicionais, você pode instalá-los no contêiner em execução. Por exemplo:
 
 ```bash
-docker run --rm -it -v $(pwd):/workspace ansible/ansible:latest bash
+docker run --rm -it -v $(pwd):/workspace alpine/ansible:latest bash
 
 # Dentro do contêiner:
 pip install <nome-do-pacote>
