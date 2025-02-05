@@ -32,6 +32,9 @@ ansible-playbook -i inventory.ini playbook.yml
 Pulando tarefas com tags especificas
 ```bash
 ansible-playbook playbook.yml --skip-tags "database"
+ansible-playbook -i hosts.ini playbook.yml --tags webserver
+ansible-playbook -i hosts.ini playbook.yml --limit web
+ansible-playbook -i hosts.ini playbook.yml --limit machine1
 ```
 
 Listando todas as tags em um playbook
