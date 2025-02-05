@@ -50,8 +50,6 @@ ssh root@machine1
 ssh root@machine2
 ```
 
-#docker run -d --name machine1 --network ansible-net -p 2222:22 ansible-node /bin/sh -c "echo 'machine1' > /etc/hostname && snap && hostname"
-
-##
+## Para acessar a máquina 
 docker run -it machine1 bash
 docker exec -it machine1 /bin/bash 

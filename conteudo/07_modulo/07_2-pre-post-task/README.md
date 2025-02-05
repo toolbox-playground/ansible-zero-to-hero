@@ -143,16 +143,17 @@ O arquivo `site.yml` chama a role `nginx_setup` para configurar o Nginx nos serv
    ```
 
 3. **Execute o playbook:**
+
   Excute para checkar a syntax
-  ```sh
+  ```
   ansible-playbook --syntax-check site.yml
    ```
 
-   ```sh
+   ```
    ansible-playbook -i inventory.ini site.yml
    ```
 
 4. **Verifique se o Nginx está rodando nos servidores:**
-   ```sh
+   ```
    systemctl status nginx
    ```

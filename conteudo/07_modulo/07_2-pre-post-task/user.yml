@@ -1,0 +1,34 @@
+---
+- name: Gerenciamento de Usuários no Servidor
+  hosts: servidores
+  become: yes
+  vars:
+    usuario: "teste"
+    senha: "SenhaSegura123"
+
+  pre_tasks:
+    - name: Verificar se o usuário já existe
+      command: id {{ usuario }}
+      register: user_check
+      ignore_errors: yes
+
+  tasks:
+    - name: Criar usuário se não existir
+      user:
+        name: "{{ usuario }}"
+        password: "{{ senha | password_hash('sha512') }}"
+        shell: /bin/bash
+        create_home: yes
+        state: present
+      when: user_check.rc != 0
+
+  post_tasks:
+    - name: Exibir mensagem de conclusão
+      debug:
+        msg: "Usuário {{ usuario }} criado com sucesso!"
+
+    - name: Registrar a criação do usuário no log
+      lineinfile:
+        path: /var/log/ansible-user.log
+        line: "Usuário {{ usuario }} criado em {{ ansible_date_time.date }} às {{ ansible_date_time.time }}"
+        create: yes

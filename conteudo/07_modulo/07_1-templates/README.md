@@ -51,7 +51,7 @@ Antes de executar um playbook, teste a conectividade com as máquinas usando o m
 
 Se estiver tudo configurado corretamente, você verá uma resposta do tipo pong.
 
-4. Executar facts
+4. Executar o template
 
 ansible -i inventory.ini machines -m setup --tree facts
 
