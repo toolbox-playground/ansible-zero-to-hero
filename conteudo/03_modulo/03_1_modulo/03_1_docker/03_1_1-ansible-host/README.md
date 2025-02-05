@@ -103,13 +103,13 @@ ansible -i /workspace/inventory.ini all -m ping
 
 ### Executar Comando Ad-Hoc
 
-```bash
-ansible -i /workspace/inventory.ini all -m command -a "uptime"
+```bash=
+ansible all -m file -a "path={{ dir_path }} state=directory" -e "dir_path=/usr/test" -i inventory.ini
 ```
 
 ## Limpando
 
-Como o contêiner é executado com `--rm`, ele será automaticamente limpo após sair. Certifique-se de que nenhum dado sensível permaneça no contêiner durante a execução.
+Como o contêiner é executado com `--rm`, ele será automaticamente limpo após sair. 
 
 ## Solução de Problemas
 
