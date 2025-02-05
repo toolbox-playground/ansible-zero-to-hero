@@ -43,8 +43,14 @@ docker run --rm -it --network ansible-net -v ${PWD}:/workspace alpine/ansible ba
 Por padrão, seu diretório atual é montado em `/workspace` dentro do contêiner. Você pode colocar seus playbooks, arquivos de inventário e configurações do Ansible nesse diretório para usá-los dentro do contêiner.
 
 ## Testando sua conexão SSH
-Execute os comandos, dentro da pasta workspace
+Criando chave ssh
 
+```
+ssh-keygen -t rsa -b 4096 -C "seu_email@exemplo.com"
+ssh-copy-id usuario@host_remoto
+```
+
+Execute os comandos, dentro da pasta workspace
 
 ```
 apk update && apk add openssh-keygen
