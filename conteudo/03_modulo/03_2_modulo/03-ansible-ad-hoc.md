@@ -29,10 +29,10 @@ ansible -i inventory.ini machines -m setup
 
 #### Instalar um pacote
 ```bash
-ansible webservers -m apt -a "name=nginx state=present" --become
+ansible -i inventory.ini machines -m apt -a "name=nginx state=present" --become
 ```
 
 #### Reiniciar serviços
 ```bash
-ansible webservers -m service -a "name=nginx state=restarted" --become
+ansible -i inventory.ini machines -m service -a "name=nginx state=restarted" --become
 ```
