@@ -4,11 +4,12 @@ Ferramenta para acessar documentação dos módulos
 
 Uso básico:
 
-```
+```bash
 ansible-doc <nome_do_módulo>
 ```
 
-Exemplo:
-```
+### Exemplo
+
+```bash
 ansible-doc yum
 ```

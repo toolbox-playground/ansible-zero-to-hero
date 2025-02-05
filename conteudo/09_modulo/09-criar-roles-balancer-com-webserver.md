@@ -1,6 +1,7 @@
 # Role Balancer (HAProxy)
-## tasks/main.yml?
+## tasks/main.yml
 
+```yaml
 - name: Instalar HAProxy
   apt:
     name: haproxy
@@ -17,9 +18,10 @@
     name: haproxy
     state: started
     enabled: yes
+```
 
 ## templates/haproxy.cfg.j2:
-
+```yaml
 frontend http_front
   bind *:80
   default_backend http_back
@@ -29,12 +31,12 @@ backend http_back
   {% for host in groups['webservers'] %}
   server {{ host }} {{ hostvars[host]['ansible_host'] }}:80 check
   {% endfor %}
-
-
+```
 
 # Role Web-server (Apache)
 ## tasks/main.yml:
 
+```yaml
 - name: Instalar Apache
   apt:
     name: apache2
@@ -50,19 +52,19 @@ backend http_back
     name: apache2
     state: started
     enabled: yes
-
+```
 
 ## templates/index.html.j2:
-
+```html
 <h1>Bem-vindo ao servidor {{ ansible_hostname }}</h1>
 <p>Este é um servidor web gerenciado pelo Ansible.</p>
+```
 
+# Usando as roles
 
-
-Usando as roles
-
-# No seu playbook principal:
-
+## No seu playbook principal:
+```yaml
+---
 - hosts: balancers
   roles:
     - balancer
@@ -70,6 +72,6 @@ Usando as roles
 - hosts: webservers
   roles:
     - web-server
-
+```
 
 
