@@ -150,7 +150,7 @@ O arquivo `site.yml` chama a role `nginx_setup` para configurar o Nginx nos serv
    ```
 
    ```
-   ansible-playbook -i inventory.ini site.yml
+   ansible-playbook -i inventory.ini user.yml
    ```
 
 4. **Verifique se o Nginx está rodando nos servidores:**

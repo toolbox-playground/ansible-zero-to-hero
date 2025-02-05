@@ -1,6 +1,6 @@
 ---
 - name: Gerenciamento de Usuários no Servidor
-  hosts: servidores
+  hosts: machines
   become: yes
   vars:
     usuario: "teste"
