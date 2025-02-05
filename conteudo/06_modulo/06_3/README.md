@@ -55,7 +55,6 @@ Se estiver tudo configurado corretamente, você verá uma resposta do tipo pong.
 
 ansible -i inventory.ini machines -m setup --tree facts
 
-
 5. Limpeza (Opcional)
 
 Pare e remova os contêineres quando não forem mais necessários:
