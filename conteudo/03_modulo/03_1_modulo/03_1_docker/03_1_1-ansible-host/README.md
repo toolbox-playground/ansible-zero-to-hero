@@ -24,7 +24,7 @@ Você pode executar o contêiner Docker do Ansible interativamente para executar
 
 ```bash
 docker network create ansible-net
-docker run --rm -it -v $(pwd):/workspace alpine/ansible bash
+docker run --rm -it --network ansible-net -v $(pwd):/workspace alpine/ansible bash
 ```
 
 ### Em Sistemas Windows (PowerShell)
