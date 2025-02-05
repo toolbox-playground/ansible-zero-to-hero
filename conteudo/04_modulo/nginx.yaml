@@ -1,6 +1,6 @@
 ---
 - name: Instalar e configurar Nginx
-  hosts: webservers
+  hosts: machines
   become: yes
   tasks:
     - name: Instalar Nginx

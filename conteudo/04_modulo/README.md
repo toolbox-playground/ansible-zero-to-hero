@@ -57,6 +57,8 @@ Se estiver tudo configurado corretamente, você verá uma resposta do tipo pong.
 
 Crie um playbook de teste chamado playbook.yml:
 
+ansible -i inventory.ini machines -m ping
+
 5. Limpeza (Opcional)
 
 Pare e remova os contêineres quando não forem mais necessários:
