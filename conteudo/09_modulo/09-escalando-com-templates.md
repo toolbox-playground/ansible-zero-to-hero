@@ -1,3 +1,4 @@
+---
 - name: Configurar servidores web
   hosts: webservers
   vars:
