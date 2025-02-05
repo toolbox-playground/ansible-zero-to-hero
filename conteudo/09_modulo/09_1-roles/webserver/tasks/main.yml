@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Instalar Apache
+  apt:
+    name: apache2
+    state: present
+
+- name: Copiar página de teste
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+
+- name: Garantir que Apache está rodando
+  service:
+    name: apache2
+    state: started
+    enabled: yes

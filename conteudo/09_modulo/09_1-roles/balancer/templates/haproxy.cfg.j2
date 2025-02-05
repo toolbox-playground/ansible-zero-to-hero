@@ -1,0 +1,9 @@
+frontend http_front
+  bind *:80
+  default_backend http_back
+
+backend http_back
+  balance roundrobin
+  {% for host in groups['webservers'] %}
+  server {{ host }} {{ hostvars[host]['ansible_host'] }}:80 check
+  {% endfor %}

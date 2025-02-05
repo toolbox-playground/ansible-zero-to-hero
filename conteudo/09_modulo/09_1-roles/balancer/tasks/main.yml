@@ -1,0 +1,18 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Instalar HAProxy
+  apt:
+    name: haproxy
+    state: present
+
+- name: Configurar HAProxy
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+  notify: Reiniciar HAProxy
+
+- name: Garantir que HAProxy está rodando
+  service:
+    name: haproxy
+    state: started
+    enabled: yes

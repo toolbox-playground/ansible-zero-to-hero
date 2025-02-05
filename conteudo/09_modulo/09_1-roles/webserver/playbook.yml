@@ -1,0 +1,7 @@
+- hosts: balancers
+  roles:
+    - balancer
+
+- hosts: webservers
+  roles:
+    - web-server
