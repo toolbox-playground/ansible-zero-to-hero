@@ -24,7 +24,7 @@ ansible all -m ping
 
 #### Coletar informações do sistema
 ```bash
-ansible webservers -m setup
+ansible -i inventory.ini machines -m setup
 ```
 
 #### Instalar um pacote

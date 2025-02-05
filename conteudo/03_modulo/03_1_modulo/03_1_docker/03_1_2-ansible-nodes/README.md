@@ -31,7 +31,6 @@ Crie um playbook de teste chamado playbook.yml:
 Execute o playbook com o comando:
 
 ```
- ansible all -m ping -i inventory.ini
  ansible-playbook -i inventory.ini playbook.yml
 ```
 
