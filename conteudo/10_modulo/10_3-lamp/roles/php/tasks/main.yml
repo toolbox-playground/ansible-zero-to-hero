@@ -1,3 +1,9 @@
+- name: Coletar informações sobre serviços do sistema
+  setup:
+    filter: ansible_facts.services
+  tags:
+    - always
+
 - name: Instalar PHP e módulos necessários
   apt:
     name:
@@ -9,10 +15,20 @@
   tags:
     - install
 
+- name: Garantir que o Apache esteja instalado e rodando
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+  tags:
+    - install
+
 - name: Reiniciar Apache para carregar PHP
   service:
     name: apache2
     state: restarted
+  retries: 3
+  delay: 5
   tags:
     - install
 
