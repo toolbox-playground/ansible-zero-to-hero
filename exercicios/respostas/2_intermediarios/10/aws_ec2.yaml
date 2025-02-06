@@ -1,0 +1,9 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1  # Modifique para a sua região
+filters:
+  instance-state-name: running  # Apenas instâncias em execução
+keyed_groups:
+  - key: tags.Name  # Agrupar instâncias pelo nome da tag Name
+compose:
+  ansible_host: public_ip_address  # Usar o IP público como host

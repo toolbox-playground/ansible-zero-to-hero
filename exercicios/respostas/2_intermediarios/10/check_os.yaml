@@ -1,0 +1,7 @@
+- name: Verificar Sistema Operacional
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Exibir nome do SO
+      debug:
+        msg: "Este servidor está rodando {{ ansible_distribution }} {{ ansible_distribution_version }}"
