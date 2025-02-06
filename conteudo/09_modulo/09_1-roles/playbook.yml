@@ -1,6 +1,9 @@
 - hosts: machine1
+  become: yes
+  #vars_files:
+  #  - vars.yml
   roles:
-    - balancer
+      - balancer
 
 - hosts: machine2
   roles:
