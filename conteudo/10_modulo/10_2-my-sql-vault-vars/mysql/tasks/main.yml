@@ -1,6 +1,5 @@
 #SPDX-License-Identifier: MIT-0
 ---
-  tasks:    
     - name: Instalar MySQL Server
       apt:
         name: mysql-server

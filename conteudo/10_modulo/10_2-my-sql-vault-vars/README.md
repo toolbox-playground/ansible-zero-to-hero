@@ -23,13 +23,14 @@ ansible-playbook --syntax-check playbook.yml
 
 Encripitando senha e verificando
 ```
-ansible-vault encrypt vars.yaml
-cat vars.yaml
+ansible-vault encrypt mysql/vars/main.yml
+cat mysql/vars/main.yml
 ```
 
 Rodando o ansible
 ```
-ansible-playbook -i inventory.ini playbook.yml
+chmod 600 vault-password.txt
+ansible-playbook -i inventory.ini playbook.yml --vault-password-file vault-password.txt
 ```
 
 Testando nossa conexão com banco
