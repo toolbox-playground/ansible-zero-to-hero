@@ -1,0 +1,40 @@
+- name: Instalar MySQL Server
+  apt:
+    name: mysql-server
+    state: present
+    update_cache: yes
+  tags:
+    - install
+
+- name: Ativar e iniciar MySQL
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+  tags:
+    - install
+
+- name: Configurar senha do root
+  mysql_user:
+    name: "{{ mysql_root_user }}"
+    host: localhost
+    password: "{{ mysql_root_password }}"
+    state: present
+  no_log: true
+  tags:
+    - install
+
+- name: Remover MySQL Server
+  apt:
+    name: mysql-server
+    state: absent
+    purge: yes
+  tags:
+    - remove
+
+- name: Remover diretórios de configuração do MySQL
+  file:
+    path: /var/lib/mysql
+    state: absent
+  tags:
+    - remove

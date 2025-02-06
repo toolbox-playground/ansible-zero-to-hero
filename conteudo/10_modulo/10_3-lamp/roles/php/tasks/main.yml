@@ -1,0 +1,28 @@
+- name: Instalar PHP e módulos necessários
+  apt:
+    name:
+      - php
+      - php-mysql
+      - libapache2-mod-php
+    state: present
+    update_cache: yes
+  tags:
+    - install
+
+- name: Reiniciar Apache para carregar PHP
+  service:
+    name: apache2
+    state: restarted
+  tags:
+    - install
+
+- name: Remover PHP e módulos
+  apt:
+    name:
+      - php
+      - php-mysql
+      - libapache2-mod-php
+    state: absent
+    purge: yes
+  tags:
+    - remove
