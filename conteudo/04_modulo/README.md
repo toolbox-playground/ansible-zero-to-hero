@@ -29,21 +29,16 @@ Por padrão, seu diretório atual é montado em `/workspace` dentro do contêine
 Para executar um playbook do Ansible, siga estas etapas:
 
 1. Coloque seu playbook (`playbook.yml`) e arquivo de inventário (`inventory.ini`) no diretório atual.
-2. Execute o seguinte comando:
 
-   ```bash
-   docker run --rm -it -v $(pwd):/workspace ansible/ansible:latest ansible-playbook -i /workspace/inventory.ini /workspace/playbook.yml
-   ```
-
-   ### Simulação de Máquinas com Docker e Uso do Ansible
+### Simulação de Máquinas com Docker e Uso do Ansible
 
 1. Configurar o Inventário do Ansible
 
 Crie um arquivo de inventário chamado inventory.ini com as informações dos contêineres:
 
 [machines]
-machine1 ansible_host=127.0.0.1 ansible_port=2222 ansible_user=root ansible_password=password
-machine2 ansible_host=127.0.0.1 ansible_port=3333 ansible_user=root ansible_password=password
+machine1 ansible_host=machine1 ansible_port=2222 ansible_user=root ansible_password=password
+machine2 ansible_host=machine2 ansible_port=3333 ansible_user=root ansible_password=password
 
 3. Testar Conectividade
 

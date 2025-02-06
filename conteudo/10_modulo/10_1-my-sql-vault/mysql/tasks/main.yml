@@ -1,44 +1,75 @@
 ---
-    - name: Include Pre-Tasks
-      import_tasks: mysql/tasks/pre_task.yml
-    
-    - name: Instalar MySQL Server
-      apt:
-        name: mysql-server
-        state: present
+- name: Include Pre-Tasks
+  import_tasks: pre_task.yml
 
-    - name: Ensure MySQL service is started and enabled
-      service:
-        name: mysql
-        state: started
-        enabled: yes
+- name: Instalar MySQL Server
+  apt:
+    name: mysql-server
+    state: present
 
-    - name: Validate MySQL is running
-      command: mysqladmin ping
-      register: mysql_ping_status
-      ignore_errors: yes  # Allow failure for debugging
+- name: Garantindo que o MySQL está em pé
+  service:
+    name: mysql
+    state: started
+    enabled: yes
 
-    - name: Fail the playbook if MySQL is not running
-      fail:
-        msg: "MySQL is not running. Please check the service logs."
-      when: "'mysqld is alive' not in mysql_ping_status.stdout"
+- name: Permintindo conexão externas
+  copy:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    content: |
+      [mysqld]
+      bind-address = 0.0.0.0
+  # notify: Reiniciar MySQL
 
-    - name: Configurar senha root do MySQL
-      mysql_user:
-        name: root
-        password: "{{ mysql_root_password }}"
-        login_unix_socket: /var/run/mysqld/mysqld.sock
+- name: Reiniciar MySQL
+  ansible.builtin.service:
+    name: mysql
+    state: started
+    enabled: yes
 
-    - name: Criar bancos de dados
-      mysql_db:
-        name: "{{ item.name }}"
-        encoding: "{{ item.encoding }}"
-        collation: "{{ item.collation }}"
-        state: present
-      loop: "{{ mysql_databases }}"
+- name: Validando se o MySQL está executando
+  command: mysqladmin ping
+  register: mysql_ping_status
+  ignore_errors: yes  # Allow failure for debugging
 
-    - name: Testar conexão com MySQL
-      command: mysqladmin -u root -p'{{ mysql_root_password }}' ping
-      register: mysql_status
-      failed_when: "'mysqld is alive' not in mysql_status.stdout"
-      ignore_errors: yes  # Para que o handler seja acionado
+#- name: Caso o MySQL não esteja rodando
+#  fail:
+#    msg: "MySQL is not running. Please check the service logs."
+#  when: "'mysqld is alive' not in mysql_ping_status.stdout"
+
+- name: Configurar senha root do MySQL
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password }}"
+    login_host: 127.0.0.1
+    login_port: 3306
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Configurar senha root do MySQL
+  community.mysql.mysql_user:
+    name: root
+    password: "{{ mysql_root_password }}"
+    login_host: 127.0.0.1
+    login_port: 3306
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    priv: "*.*:ALL,GRANT"
+  ignore_errors: yes  # Evita falha caso já esteja configurado corretamente
+
+- name: Criar bancos de dados
+  mysql_db:
+    name: "{{ item.name }}"
+    encoding: "{{ item.encoding }}"
+    collation: "{{ item.collation }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_host: 127.0.0.1
+  loop: "{{ mysql_databases }}"
+
+- name: Testar conexão com MySQL
+  command: mysqladmin -u root -p'{{ mysql_root_password }}' ping
+  register: mysql_status
+  failed_when: "'mysqld is alive' not in mysql_status.stdout"
+  ignore_errors: yes  # Para que o handler seja acionado

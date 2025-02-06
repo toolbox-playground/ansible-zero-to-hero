@@ -138,8 +138,8 @@ O arquivo `site.yml` chama a role `nginx_setup` para configurar o Nginx nos serv
 2. **Verifique se o arquivo de inventário está correto (`inventory.ini`):**
    ```ini
    [servers]
-   machine1 ansible_host=192.168.1.10 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
-   machine2 ansible_host=192.168.1.11 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+   machine1 ansible_host=machine1 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+   machine2 ansible_host=machine2 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
    ```
 
 3. **Execute o playbook:**

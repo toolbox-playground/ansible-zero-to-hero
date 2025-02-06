@@ -1,0 +1,12 @@
+---
+- name: Ensure required MySQL Python packages are installed (PyMySQL for Python 3)
+  package:
+    name: python3-pymysql
+    state: present
+  when: ansible_python.version.major == 3
+
+- name: Ensure required MySQL Python packages are installed (MySQL-python for Python 2)
+  package:
+    name: python-mysqldb
+    state: present
+  when: ansible_python.version.major == 2
