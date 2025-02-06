@@ -1,4 +1,8 @@
 # Módulo 10 - Ansible Vault
-- hosts: machine1
+- name: Example Playbook with Vault Variables
+  hosts: machine1
+  become: yes
+  vars_files:
+    - vars.yml
   roles:
     - mysql
