@@ -1,23 +1,37 @@
 #SPDX-License-Identifier: MIT-0
 ---
+  tasks: 
+  - name: Instalar MySQL Server
+    apt:
+      name: mysql-server
+      state: present
 
-- name: Instalar MySQL Server
-  apt:
-    name: mysql-server
-    state: present
+  - name: Configurar senha root do MySQL
+    mysql_user:
+      name: root
+      password: "{{ mysql_root_password }}"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
 
-- name: Configurar senha root do MySQL
-  mysql_user:
-    name: root
-    password: "{{ mysql_root_password }}"
-    login_unix_socket: /var/run/mysqld/mysqld.sock
+  - name: Criar bancos de dados
+    mysql_db:
+      name: "{{ item.name }}"
+      encoding: "{{ item.encoding }}"
+      collation: "{{ item.collation }}"
+      state: present
+    loop: "{{ mysql_databases }}"
 
-- name: Criar bancos de dados
-  mysql_db:
-    name: "{{ item.name }}"
-    encoding: "{{ item.encoding }}"
-    collation: "{{ item.collation }}"
-    state: present
-  loop: "{{ mysql_databases }}"
+  - name: Testar conexão com MySQL
+    command: mysqladmin -u root -p'{{ mysql_root_password }}' ping
+    register: mysql_status
+    failed_when: "'mysqld is alive' not in mysql_status.stdout"
+    ignore_errors: yes  # Para que o handler seja acionado
 
-
+  #- name: Se conexão falhar, chamar handler para reiniciar MySQL
+  #  meta: flush_handlers
+  #  when: mysql_status.failed
+#
+  #- name: Testar conexão novamente após restart
+  #  command: mysqladmin -u root -p'{{ mysql_root_password }}' ping
+  #  register: mysql_status_after_restart
+  #  failed_when: "'mysqld is alive' not in mysql_status_after_restart.stdout"
+  #  listen: "restart mysql"

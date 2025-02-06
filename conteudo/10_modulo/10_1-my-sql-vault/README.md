@@ -23,7 +23,7 @@ ansible-playbook --syntax-check playbook.yml
 
 Encripitando senha
 ```
-ansible-vault encrypt_string 'senha_secreta' --name 'db_password'
+ansible-vault encrypt_string 'mysql_root_password' --name 'db_password'
 ```
 
 Rodando o ansible
