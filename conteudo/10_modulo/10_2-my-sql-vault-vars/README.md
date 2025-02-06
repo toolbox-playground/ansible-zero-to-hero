@@ -37,3 +37,31 @@ Testando nossa conexão com banco
 ```
 ansible -i hosts.ini my_vm -m mysql_db -a "name=test_db state=present login_user=root login_password={{ mysql_root_password }}"
 ```
+
+3. **Executando Troubleshooting**
+
+Pare e remova os contêineres:
+
+```
+docker stop machine1
+docker rm machine1
+```
+
+Inicie o contêiner para simular a maquina:
+
+```
+docker run -d --name machine1 --network ansible-net -p 2222:22 -p 3306:3306 ansible-node
+```
+
+Atualize o container do ansible control
+
+```
+apk add busybox-extras
+telnet machine1 3306
+```
+
+Caso necessite, para acessar o nó é só usar:
+
+```
+docker exec -it machine1 sh
+```

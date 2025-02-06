@@ -10,8 +10,8 @@
 2. **Verifique se o arquivo de inventário está correto (`inventory.ini`):**
    ```ini
    [servers]
-   machine1 ansible_host=machine1 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
-   machine2 ansible_host=machine2 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+   machine1 ansible_host=machine1 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
+   machine2 ansible_host=machine2 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
    ```
 
 3. **Execute o playbook:**
@@ -45,14 +45,15 @@ ansible -i inventory.ini machine1 -m mysql_db -a "name=test_db state=present log
 Pare e remova os contêineres:
 
 ```
-docker stop machine1
-docker rm machine1
+docker stop machine1 machine2
+docker rm machine1 machine2
 ```
 
 Inicie o contêiner para simular a maquina:
 
 ```
 docker run -d --name machine1 --network ansible-net -p 2222:22 -p 3306:3306 ansible-node
+docker run -d --name machine2 --network ansible-net -p 3333:22 -p 80:80 ansible-node
 ```
 
 Atualize o container do ansible control
@@ -61,3 +62,13 @@ Atualize o container do ansible control
 apk add busybox-extras
 telnet machine1 3306
 ```
+
+Caso necessite, para acessar o nó é só usar:
+
+```
+docker exec -it machine1 sh
+```
+
+## 4 Final - Instalando Nginx
+
+ansible-playbook -i inventory.ini playbook.yml --limit machine2

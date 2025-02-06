@@ -1,11 +1,4 @@
 ---
-- name: Instalar e configurar Nginx
-  hosts: machines
-  become: yes
-  vars:
-    server_name: "example.com"
-    document_root: "/var/www/example"
-  tasks:
     - name: Instalar Nginx
       apt:
         name: nginx
@@ -19,12 +12,22 @@
 
     - name: Copiar arquivo de configuração personalizado
       template:
-        src: nginx.conf.j2
+        src: templates/nginx.conf.j2
         dest: /etc/nginx/nginx.conf
       notify: Reiniciar Nginx
 
-  handlers:
-    - name: Reiniciar Nginx
-      service:
-        name: nginx
-        state: restarted
+    - name: Check if Nginx is running using service
+      shell: service nginx status
+      register: nginx_status
+      ignore_errors: yes
+
+    - name: Debug Nginx status output
+      debug:
+        msg: "{{ nginx_status.stdout }}"
+
+    - name: Verify Nginx is responding
+      uri:
+        url: http://localhost
+        status_code: 200
+      register: nginx_response
+      ignore_errors: yes

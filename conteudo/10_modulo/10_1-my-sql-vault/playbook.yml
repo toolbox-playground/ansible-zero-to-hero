@@ -1,9 +1,17 @@
 # Módulo 10 - Ansible Vault
-- name: Example Playbook with Vault Variables
+# Playbook for running different roles on different machines
+- name: Install MySQL on machine1
   hosts: machine1
   become: yes
   vars_files:
     - vars.yml
   roles:
     - mysql
+
+- name: Install Nginx on machine2
+  hosts: machine2
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
     - nginx
