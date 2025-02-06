@@ -19,43 +19,43 @@
     content: |
       [mysqld]
       bind-address = 0.0.0.0
-  # notify: Reiniciar MySQL
+    force: yes  # Garante que o arquivo será sobrescrito
+  notify: Reiniciar MySQL
 
 - name: Reiniciar MySQL
   ansible.builtin.service:
     name: mysql
-    state: started
+    state: restarted
     enabled: yes
 
-- name: Validando se o MySQL está executando
-  command: mysqladmin ping
+- name: Validando MySQL
+  command: mysqladmin -u root -p'password' ping -h localhost
   register: mysql_ping_status
   ignore_errors: yes  # Allow failure for debugging
 
-#- name: Caso o MySQL não esteja rodando
-#  fail:
-#    msg: "MySQL is not running. Please check the service logs."
-#  when: "'mysqld is alive' not in mysql_ping_status.stdout"
-
-- name: Configurar senha root do MySQL
-  mysql_user:
-    name: root
-    password: "{{ mysql_root_password }}"
-    login_host: 127.0.0.1
-    login_port: 3306
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-
-- name: Configurar senha root do MySQL
+- name: Create MySQL user 'test'
   community.mysql.mysql_user:
-    name: root
-    password: "{{ mysql_root_password }}"
-    login_host: 127.0.0.1
-    login_port: 3306
+    name: test
+    password: "Test123!"
+    host: "%"
+    priv: "*.*:ALL"
+    state: present
     login_user: root
-    login_password: "{{ mysql_root_password }}"
-    priv: "*.*:ALL,GRANT"
-  ignore_errors: yes  # Evita falha caso já esteja configurado corretamente
+    login_password: "password"
+    login_host: localhost
+    login_unix_socket: /var/run/mysqld/mysqld.sock  # Use actual socket path
+
+#- name: Configurar senha root do MySQL
+#  community.mysql.mysql_user:
+#    name: root
+#    password: "{{ mysql_root_password }}"
+#    login_host: localhost
+#    login_port: 3306
+#    login_user: root
+#    login_password: "{{ mysql_root_password }}"
+#    priv: "*.*:ALL,GRANT"
+#    login_unix_socket: /var/run/mysqld/mysqld.sock  # Use actual socket path
+#  ignore_errors: yes  # Evita falha caso já esteja configurado corretamente
 
 - name: Criar bancos de dados
   mysql_db:
@@ -65,11 +65,6 @@
     state: present
     login_user: root
     login_password: "{{ mysql_root_password }}"
-    login_host: 127.0.0.1
+    login_host: localhost
+    login_unix_socket: /var/run/mysqld/mysqld.sock  # Use actual socket path
   loop: "{{ mysql_databases }}"
-
-- name: Testar conexão com MySQL
-  command: mysqladmin -u root -p'{{ mysql_root_password }}' ping
-  register: mysql_status
-  failed_when: "'mysqld is alive' not in mysql_status.stdout"
-  ignore_errors: yes  # Para que o handler seja acionado

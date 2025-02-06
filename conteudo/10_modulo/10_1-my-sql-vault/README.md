@@ -55,7 +55,7 @@ Inicie o contêiner para simular a maquina:
 docker run -d --name machine1 --network ansible-net -p 2222:22 -p 3306:3306 ansible-node
 ```
 
-Atualize o container ansible
+Atualize o container do ansible control
 
 ```
 apk add busybox-extras

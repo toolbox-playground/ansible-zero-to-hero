@@ -42,8 +42,8 @@ Para executar um playbook do Ansible, siga estas etapas:
 Crie um arquivo de inventário chamado inventory.ini com as informações dos contêineres:
 
 [machines]
-machine1 ansible_host=127.0.0.1 ansible_port=2222 ansible_user=root ansible_password=password
-machine2 ansible_host=127.0.0.1 ansible_port=3333 ansible_user=root ansible_password=password
+machine1 ansible_host=machine1 ansible_port=2222 ansible_user=root ansible_password=password
+machine2 ansible_host=machine2 ansible_port=3333 ansible_user=root ansible_password=password
 
 3. Testar Conectividade
 
