@@ -1,0 +1,8 @@
+---
+- name: Criar usuário no MySQL
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: '*.*:ALL'
+    state: present
+  no_log: true

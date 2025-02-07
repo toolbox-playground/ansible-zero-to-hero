@@ -1,0 +1,36 @@
+name: Provisionar AWS com Ansible
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Clonar repositório
+        uses: actions/checkout@v3
+
+      - name: 🔧 Instalar Ansible e Dependências
+        run: |
+          sudo apt update
+          sudo apt install -y ansible python3-boto3 python3-botocore
+
+      - name: 🔑 Configurar credenciais AWS
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+          echo "[default]" > ~/.aws/config
+          echo "region = us-east-1" >> ~/.aws/config
+
+      - name: 🚀 Criar Instância EC2 na AWS
+        run: ansible-playbook -i localhost, create-ec2.yml
+
+      - name: 🕒 Aguardar 60 segundos para inicialização
+        run: sleep 60
+
+      - name: 🔄 Configurar Servidores Web e Banco de Dados
+        run: ansible-playbook -i inventory/aws_hosts.ini playbook.yml --ask-vault-pass

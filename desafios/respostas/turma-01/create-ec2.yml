@@ -1,0 +1,34 @@
+---
+- name: Criar uma instância EC2 na AWS
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - group_vars/aws2.yml  # Import variables from aws2.yml
+  tasks:
+    - name: Criar uma instância EC2
+      amazon.aws.ec2_instance:
+        name: "{{ env }}-{{ role }}-{{ region_code }}-instance"
+        key_name: "{{ aws_key_name }}"
+        instance_type: "{{ instance_type }}"
+        security_group: "{{ security_group }}"
+        region: "{{ aws_region }}"
+        image_id: "{{ ami_id }}"
+        count: 1
+        vpc_subnet_id: "{{ subnet_id }}"
+        wait: yes
+        tags:
+          Name: "{{ env }}-{{ role }}-{{ region_code }}-instance"
+          Role: "{{ role }}"
+          Environment: "{{ env }}"
+      register: ec2_instance
+
+    - name: Exibir IP público da instância
+      debug:
+        msg: "A instância EC2 foi criada com o IP: {{ ec2_instance.instances[0].public_ip_address }}"
+
+    - name: Criar arquivo de inventário dinâmico
+      copy:
+        content: |
+          [webservers]
+          {{ ec2_instance.instances[0].public_ip_address }} ansible_user={{ ansible_ssh_user }} ansible_ssh_private_key_file={{ ansible_ssh_private_key_file }}
+        dest: inventory/aws_hosts.ini

@@ -1,0 +1,12 @@
+---
+- name: Provisionar Web Server
+  hosts: webservers
+  become: yes
+  roles:
+    - webserver
+
+- name: Provisionar Banco de Dados
+  hosts: database
+  become: yes
+  roles:
+    - database

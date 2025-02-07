@@ -1,0 +1,7 @@
+- name: Instalar Nginx e PHP
+  apt:
+    name:
+      - nginx
+      - php-fpm
+    state: present
+    update_cache: yes

@@ -1,0 +1,36 @@
+stages:
+  - provision
+  - configure
+
+variables:
+  AWS_REGION: "us-east-1"
+  INVENTORY_FILE: "inventory/aws_hosts.ini"
+
+before_script:
+  - apt update && apt install -y ansible python3-boto3 python3-botocore
+  - mkdir -p ~/.aws
+  - echo "[default]" > ~/.aws/credentials
+  - echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
+  - echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
+  - echo "[default]" > ~/.aws/config
+  - echo "region = ${AWS_REGION}" >> ~/.aws/config
+
+provision:
+  stage: provision
+  script:
+    - echo "🚀 Criando a instância EC2 na AWS..."
+    - ansible-playbook -i localhost, create-ec2.yml
+    - sleep 60  # Aguarda a instância estar acessível via SSH
+    - echo "🔍 Obtendo IP da instância criada..."
+    - cat $INVENTORY_FILE  # Exibir inventário gerado
+  artifacts:
+    paths:
+      - inventory/aws_hosts.ini  # Salva o inventário para a próxima etapa
+
+configure:
+  stage: configure
+  dependencies:
+    - provision  # Aguarda a criação da instância antes de configurar
+  script:
+    - echo "🔧 Configurando os servidores..."
+    - ansible-playbook -i $INVENTORY_FILE playbook.yml --vault-password-file <(echo "$VAULT_PASSWORD")
