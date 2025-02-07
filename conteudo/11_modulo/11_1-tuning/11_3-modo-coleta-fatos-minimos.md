@@ -13,7 +13,7 @@ Por padrão, o Ansible executa “gathering facts” no início de cada playbook
 
 Existem três maneiras de otimizar a coleta de fatos no Ansible:
 
-1. Desativar a Coleta de Fatos Totalmente (gather_facts: no)
+## 1. Desativar a Coleta de Fatos Totalmente (gather_facts: no)
 
 Se o seu playbook não precisa de facts, desative a coleta para economizar tempo:
 
@@ -34,7 +34,7 @@ Playbook otimizado (sem coleta de fatos)
 - Quando você não precisa de nenhuma informação sobre o sistema remoto;  
 - Quando as tarefas do playbook não dependem de facts (ansible_os_family, ansible_hostname, etc.).  
 
-2. Usar a Coleta de Fatos Parcial (gather_subset)
+## 2. Usar a Coleta de Fatos Parcial (gather_subset)
 
 Se você precisa de algumas informações, mas não todas, pode coletar apenas um subconjunto de facts.
 
@@ -53,7 +53,8 @@ Exemplo de coleta mínima:
 ```
 
 Grupos de coleta disponíveis (gather_subset)
-|:---------:|:-------------------------------------------------:|
+|Valor      |O que coleta?                                      |
+|:---------:|---------------------------------------------------|
 |all        |Todos os fatos (padrão)                            |
 |min        |Fatos essenciais (hostname, SO básico, arquitetura)|
 |hardware   |CPU, memória, discos                               |
@@ -67,7 +68,7 @@ gather_subset:
   - network
 ```
 
-3. Armazenar Fatos em Cache para Reutilização (fact_caching)
+## 3. Armazenar Fatos em Cache para Reutilização (fact_caching)
 
 Se você precisa de facts, mas quer evitar coletá-los repetidamente, pode armazená-los em cache.
 

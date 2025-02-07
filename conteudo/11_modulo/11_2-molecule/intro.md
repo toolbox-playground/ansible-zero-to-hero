@@ -49,7 +49,7 @@ minha_role/
 │   ├── main.yml           # Código principal da Role
 ├── meta/
 │   ├── main.yml           # Metadados da Role
-````
+```
 
 3. Configurando o Molecule (molecule.yml)
 
