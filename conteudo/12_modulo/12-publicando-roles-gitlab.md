@@ -91,8 +91,8 @@ Selecione seu repositório
 Configure a sincronização automática
 
 ## Boas Práticas
-Mantenha a documentação atualizada no README.md
-Use branches para desenvolvimento (ex: develop, feature/nova-funcionalidade)
-Revise e teste cuidadosamente antes de criar novas tags/versões
-Responda a issues e pull requests de forma ativa
-Publicar suas roles no GitLab não só facilita o versionamento e colaboração, mas também permite integração contínua e distribuição automática através do Ansible Galaxy.
+- Mantenha a documentação atualizada no README.md;  
+- Use branches para desenvolvimento (ex: develop, feature/nova-funcionalidade);  
+- Revise e teste cuidadosamente antes de criar novas tags/versões;  
+- Responda a issues e pull requests de forma ativa;  
+- Publicar suas roles no GitLab não só facilita o versionamento e colaboração, mas também permite integração contínua e distribuição automática através do Ansible Galaxy.  
