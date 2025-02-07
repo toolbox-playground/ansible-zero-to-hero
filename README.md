@@ -34,6 +34,8 @@ Este curso é ideal para:
 **- Profissionais de DevOps:** Interessados em se atualizar e aprofundar seus conhecimentos com as melhores práticas.  
 **- Especialistas em Suporte, Cloud, Infra e Redes:** Que desejam migrar ou evoluir na área de DevOps, adquirindo as habilidades essenciais para impulsionar suas carreiras.
 
-
 # Como Participar
-Inscreva-se agora mesmo! Entre em contato com nosso time comercial pelo e-mail XXX@XXX ou envie uma mensagem no WhatsApp (19) 9 8199-0082.
+Inscreva-se agora mesmo! Entre em contato com nosso time comercial pelo e-mail *contato@toolbooxdevops.cloud* ou envie uma mensagem no WhatsApp (19) 9 8199-0082.
+
+# Entre na nossa comunidade do Discord!
+[Toolbox Playground](https://discord.gg/XP8kQvpW)
