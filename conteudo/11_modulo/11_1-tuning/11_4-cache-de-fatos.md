@@ -10,7 +10,7 @@ O cache de fatos no Ansible permite evitar coletar informações repetidamente, 
 
 O Ansible pode armazenar os fatos coletados e reutilizá-los em execuções futuras, evitando repetir o processo desnecessariamente.
 
-1. Como Ativar o Cache de Fatos no ansible.cfg
+### 1. Como Ativar o Cache de Fatos no ansible.cfg
 
 Você pode configurar o caching de fatos no seu arquivo ansible.cfg.
 
@@ -21,15 +21,15 @@ gathering = smart
 fact_caching = jsonfile  # Define o formato do cache
 fact_caching_connection = /tmp/ansible_facts  # Define onde salvar os fatos
 fact_caching_timeout = 3600  # Tempo de expiração do cache (3600s = 1 hora)
-````
+```
 
 **Explicação das opções**
-- gathering = smart → O Ansible só coleta novos fatos se não houver cache;  
-- fact_caching = jsonfile → Usa um arquivo JSON como armazenamento;  
-- fact_caching_connection = /tmp/ansible_facts → Define o diretório onde os fatos serão armazenados;  
-- fact_caching_timeout = 3600 → O cache será válido por 1 hora.  
+**- gathering** = smart → O Ansible só coleta novos fatos se não houver cache;  
+**- fact_caching** = jsonfile → Usa um arquivo JSON como armazenamento;  
+**- fact_caching_connection** = /tmp/ansible_facts → Define o diretório onde os fatos serão armazenados;  
+**- fact_caching_timeout** = 3600 → O cache será válido por 1 hora.  
 
-2. Usando o Cache de Fatos no Playbook
+### 2. Usando o Cache de Fatos no Playbook
 
 Depois de ativar o cache, seu playbook não precisará mais coletar os fatos a cada execução.
 
@@ -47,7 +47,7 @@ Playbook aproveitando cache:
 
 Resultado: Se o cache estiver ativado, a segunda execução será muito mais rápida!
 
-3. Limpando o Cache de Fatos (se necessário)
+### 3. Limpando o Cache de Fatos (se necessário)
 
 Se precisar limpar e forçar uma nova coleta de fatos, use:
 ```bash
@@ -56,11 +56,12 @@ ansible all -i aws_ec2.yaml -m setup --flush-cache
 
 Isso remove o cache e força uma nova coleta.
 
-4. Outras Opções de Cache no Ansible
+### 4. Outras Opções de Cache no Ansible
 
 O Ansible suporta múltiplos backends para armazenamento de cache:
-|:---------:|:-----------------------------------------------------:|
+
 |Backend    |Descrição                                              |
+|:---------:|:-----------------------------------------------------:|
 |jsonfile   |Salva fatos em arquivos JSON locais (recomendado)      |
 |memory     |Armazena fatos apenas na memória RAM (não persiste)    |
 |redis      |Usa um servidor Redis para armazenar fatos             |

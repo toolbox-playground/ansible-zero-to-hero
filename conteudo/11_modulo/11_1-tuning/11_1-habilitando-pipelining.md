@@ -6,7 +6,7 @@ O pipelining no Ansible melhora o desempenho ao reduzir a quantidade de conexõe
 
 Você pode habilitar o pipelining de duas formas:
 
-1. Habilitar no arquivo ansible.cfg
+### 1. Habilitar no arquivo ansible.cfg
 
 No seu arquivo ansible.cfg, adicione ou edite a seguinte linha:
 
@@ -17,7 +17,7 @@ pipelining = True
 
 Isso garante que o pipelining está ativado em todas as execuções do Ansible.
 
-2. Ativar via variável de ambiente
+### 2. Ativar via variável de ambiente
 
 Se você não quiser alterar o ansible.cfg, pode ativá-lo temporariamente definindo a variável de ambiente antes de rodar o playbook:
 

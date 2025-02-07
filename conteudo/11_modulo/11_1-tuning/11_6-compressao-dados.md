@@ -13,7 +13,7 @@ O tempo de execução pode ser alto devido ao tamanho dos arquivos e velocidade 
 
 Solução: Habilitar a compressão SSH para reduzir o volume de dados transferidos e acelerar execuções.
 
-1. Como Habilitar a Compressão no Ansible (ansible.cfg)
+### 1. Como Habilitar a Compressão no Ansible (ansible.cfg)
 
 A maneira mais eficiente e persistente de ativar a compressão SSH é no arquivo ansible.cfg.
 
@@ -26,7 +26,7 @@ compression = yes  # 🔥 Habilita compressão SSH
 Explicação
 - compression = yes → Ativa a compressão Gzip no SSH, reduzindo o tamanho dos arquivos enviados e recebidos.  
 
-2. Ativar a Compressão via Linha de Comando
+### 2. Ativar a Compressão via Linha de Comando
 
 Se você não quiser modificar o ansible.cfg, pode ativar a compressão temporariamente ao rodar um playbook:
 ```bash
@@ -41,7 +41,7 @@ ANSIBLE_SSH_ARGS="-C" ansible all -i aws_ec2.yaml -m ping
 Explicação  
 - -C → Habilita a compressão SSH para aquela execução específica.  
 
-3. Configurar Compressão no SSH Globalmente (~/.ssh/config)
+### 3. Configurar Compressão no SSH Globalmente (~/.ssh/config)
 
 Outra abordagem é ativar a compressão diretamente no SSH para todas as conexões Ansible.
 
@@ -53,7 +53,7 @@ Host *
 
 Isso ativa a compressão para todas as conexões SSH, incluindo as usadas pelo Ansible.
 
-4. Exemplo de Uso: Copiando Arquivos Grandes com Compressão
+### 4. Exemplo de Uso: Copiando Arquivos Grandes com Compressão
 
 Se você estiver usando módulos como copy ou synchronize, a compressão pode acelerar a transferência.
 

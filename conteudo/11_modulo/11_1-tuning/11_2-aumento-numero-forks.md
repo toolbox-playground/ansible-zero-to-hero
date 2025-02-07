@@ -9,19 +9,19 @@ Os forks determinam quantos hosts o Ansible pode gerenciar simultaneamente dentr
 
 Existem três maneiras principais de alterar o número de forks.
 
-1. Configurar no ansible.cfg
+## 1. Configurar no ansible.cfg
 
 A maneira mais persistente de aumentar o número de forks é no arquivo de configuração do Ansible.
 
 Edite o ansible.cfg e adicione a seguinte configuração:
-``ìni
+```ini
 [defaults]
 forks = 20  # Altere para um número maior conforme necessário
 ```
 
 Isso define o número padrão de forks para todas as execuções do Ansible.
 
-2. Definir Forks na Linha de Comando  
+## 2. Definir Forks na Linha de Comando  
 
 Se quiser alterar o número de forks apenas para uma execução específica, adicione -f ou --forks ao comando:
 
@@ -31,7 +31,7 @@ ansible-playbook -i meu_playbook.yaml --forks 20
 
 *Isso sobrescreve o valor definido no ansible.cfg.*
 
-3. Usar uma Variável de Ambiente  
+## 3. Usar uma Variável de Ambiente  
 
 Outra opção é definir os forks como uma variável de ambiente:
 ```bash

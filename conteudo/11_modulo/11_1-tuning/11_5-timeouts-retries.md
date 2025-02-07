@@ -1,8 +1,6 @@
 # 🚀 Otimize Timeouts e Retries no Ansible  
 *Evite atrasos em hosts lentos ou instáveis ajustando tempos de espera e número de tentativas.*
 
----
-
 ## 📌 O Problema
 Por padrão, o Ansible usa **timeouts longos** e **não tenta reconectar-se automaticamente** quando um host falha momentaneamente. Isso pode ser problemático quando:
 
@@ -12,9 +10,7 @@ Por padrão, o Ansible usa **timeouts longos** e **não tenta reconectar-se auto
 
 ✅ A solução é **ajustar os timeouts e o número de tentativas (retries)**!
 
----
-
-## 1️⃣ Configurando Timeouts para Conexão SSH
+## 1. Configurando Timeouts para Conexão SSH
 Se um host demorar para responder, podemos **reduzir o tempo de espera** para evitar que a execução fique travada.
 
 📄 **Edite o `ansible.cfg`**
@@ -27,14 +23,14 @@ connect_timeout = 15  # Tempo de espera para conexão SSH (padrão é 10s)
 ```
 
 **Explicação:**
-- timeout = 30 → Define um tempo máximo global antes do Ansible desistir.
+- timeout = 30 → Define um tempo máximo global antes do Ansible desistir.  
 - connect_timeout = 15 → Define o tempo máximo de espera para estabelecer a conexão SSH.
 
-Importante lembrar:
-- Se seus hosts forem lentos, aumente o connect_timeout; 
+Importante lembrar:  
+- Se seus hosts forem lentos, aumente o connect_timeout;  
 - Se quiser que falhem mais rápido, reduza o valor.
 
-2. Definindo Número de Tentativas (retries)
+## 2. Definindo Número de Tentativas (retries)
 
 Se um host falhar temporariamente, podemos fazer o Ansible tentar novamente antes de desistir.
 
@@ -65,7 +61,7 @@ Exemplo de Playbook com Retries:
 - delay: 10 → Espera 10 segundos entre cada tentativa;  
 - until: resultado is success → A tarefa só para quando for bem-sucedida.  
 
-3. Configurar Tempo de Espera para Tarefas (async e poll)
+## 3. Configurar Tempo de Espera para Tarefas (async e poll)
 
 Se uma tarefa demora muito (exemplo: reiniciar um serviço ou instalar um grande pacote), o Ansible pode não esperar tempo suficiente antes de falhar.
 
@@ -84,13 +80,13 @@ Exemplo de uso de async e poll:
       poll: 10  # 🔥 Verifica o status a cada 10 segundos
 ```
 
-Explicação
-- async: 600 → Permite que a tarefa rode por até 10 minutos antes de falhar.
-- poll: 10 → O Ansible verifica a cada 10 segundos se a tarefa terminou.
+**Explicação**
+**- async: 600 →** Permite que a tarefa rode por até 10 minutos antes de falhar.
+**- poll: 10 →** O Ansible verifica a cada 10 segundos se a tarefa terminou.
 
 Ideal para tarefas demoradas, como atualizações de sistema ou deploys grandes.
 
-4. Configurar Timeout de Reconexão (retries para conexão)
+## 4. Configurar Timeout de Reconexão (retries para conexão)
 
 Se o host ficar offline momentaneamente, podemos fazer o Ansible tentar reconectar antes de desistir.
 

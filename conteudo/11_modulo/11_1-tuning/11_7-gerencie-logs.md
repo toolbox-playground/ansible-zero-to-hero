@@ -9,14 +9,14 @@ Além disso, quando ativado, o log pode ser muito detalhado e ocupar espaço des
 
 Solução: Configurar logs de forma eficiente para manter apenas as informações relevantes e evitar desperdício de espaço e recursos.
 
-1. Ativar Logs no Ansible (ansible.cfg)
+## 1. Ativar Logs no Ansible (ansible.cfg)
 
 Se quiser armazenar logs de execução, edite o arquivo ansible.cfg e adicione:
 ```ini
 [defaults]
 log_path = /var/log/ansible.log  # 🔥 Define onde os logs serão salvos
 log_format = yaml  # 🔥 Formato de log (json, yaml ou logstash)
-````
+```
 
 Explicação
 - log_path = /var/log/ansible.log → Define um arquivo para armazenar logs;  
@@ -28,7 +28,7 @@ sudo touch /var/log/ansible.log
 sudo chmod 666 /var/log/ansible.log  # Permite escrita
 ```
 
-2. Controlar o Detalhamento dos Logs (verbosity)
+## 2. Controlar o Detalhamento dos Logs (verbosity)
 
 O Ansible permite ajustar a quantidade de informações nos logs usando níveis de verbosidade:
 ```bash
@@ -38,8 +38,8 @@ ansible-playbook -i aws_ec2.yaml meu_playbook.yaml -vvv # Muito detalhado (níve
 ```
 
 ## Níveis de Verbosidade
-|:-----:|:-----------------------------:|
 |Opção  |Detalhamento                   |
+|:-----:|:-----------------------------:|
 |-v     |Erros e tarefas executadas     |
 |-vv    |Logs detalhados                |
 |-vvv   |Depuração avançada             |
@@ -49,7 +49,7 @@ Quando usar?
 -v para capturar informações essenciais.  
 -vv ou -vvv apenas para debug de problemas.  
 
-3. Registrar Logs Somente de Tarefas Específicas
+## 3. Registrar Logs Somente de Tarefas Específicas
 
 Se não quiser gerar logs para tudo, mas apenas para tarefas críticas, use o módulo debug:
 
@@ -73,7 +73,7 @@ Exemplo de Playbook:
 
 Isso reduz a quantidade de logs desnecessários e foca no que importa!
 
-4. Evitar Logs Sensíveis (no_log: true)
+## 4. Evitar Logs Sensíveis (no_log: true)
 
 Se você estiver armazenando logs, evite que dados sensíveis fiquem registrados.
 
@@ -96,7 +96,7 @@ Por que usar no_log: true?
 - Evita que senhas e dados sensíveis sejam registrados;  
 - Melhora a segurança dos logs em ambientes críticos.  
 
-5. Redirecionar Logs para Monitoramento
+## 5. Redirecionar Logs para Monitoramento
 
 Se você usa ELK (Elasticsearch, Logstash, Kibana), Grafana ou outro sistema de logs, pode redirecionar os logs para um servidor remoto.
 
