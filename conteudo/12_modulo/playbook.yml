@@ -1,0 +1,17 @@
+# Módulo 10 - Ansible Vault
+# Playbook for running different roles on different machines
+- name: Install MySQL
+  hosts: database
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - mysql
+
+- name: Install Nginx
+  hosts: webservers
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - nginx

@@ -1,0 +1,42 @@
+image: python:3.10  # Use a Python image to install Ansible
+
+stages:
+  - validate
+  - dry-run
+
+variables:
+  ANSIBLE_CONFIG: "${CI_PROJECT_DIR}/ansible.cfg"
+
+before_script:
+  - pip install --upgrade pip
+  - pip install ansible ansible-lint
+  - apt update && apt install -y jq
+
+validate-ansible:
+  stage: validate
+  script:
+    - echo "Checking Ansible syntax..."
+    - ansible-playbook --syntax-check playbook.yml
+    - echo "Running Ansible lint..."
+    - ansible-lint -v --format json playbook.yml | jq
+  only:
+    - merge_requests  # Run this for merge requests only
+
+dry-run-execution:
+  stage: dry-run
+  script:
+    - echo "------ Downloading Security File ------"
+    - curl -s https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer | bash
+    - ls -lah .secure_files
+    - echo "------ Move Security File ------"
+    - mv .secure_files/vault-password.txt ./
+    - mv .secure_files/aula-ansible.pem ./
+    - echo "------ Executing Dry Run ------"
+    - chmod 600 vault-password.txt
+    - chmod 600 aula-ansible.pem
+    - ssh -i aula-ansible.pem -o StrictHostKeyChecking=no ubuntu@ec2-174-129-143-204.compute-1.amazonaws.com 'echo "Conexão SSH bem-sucedida!"'
+    - ssh -i aula-ansible.pem -o StrictHostKeyChecking=no ubuntu@ec2-54-147-242-22.compute-1.amazonaws.com 'echo "Conexão SSH bem-sucedida!"'
+    - ssh -i aula-ansible.pem -o StrictHostKeyChecking=no ubuntu@c2-34-229-133-68.compute-1.amazonaws.com 'echo "Conexão SSH bem-sucedida!"'
+    - ansible-playbook -i inventory.ini playbook.yml --vault-password-file=vault-password.txt --check --diff
+  only:
+    - main  # Run this only when merged into main
