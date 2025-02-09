@@ -6,4 +6,6 @@
 - https://docs.ansible.com/ansible/2.9/modules/apt_module.html
 - https://docs.ansible.com/ansible/2.9/modules/yum_module.html
 - https://docs.ansible.com/ansible/2.9/modules/apt_rpm_module.html
-- 
+
+## Jinja2
+- https://jinja.palletsprojects.com/en/stable/
