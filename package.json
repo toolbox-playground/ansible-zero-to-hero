@@ -1,0 +1,19 @@
+{
+  "name": "yes",
+  "version": "1.0.0",
+  "description": "![Ansible](imgs/logo_curso.png \"Ansible - From Zero to Hero\")",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toolbox-playground/ansible-zero-to-hero.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toolbox-playground/ansible-zero-to-hero/issues"
+  },
+  "homepage": "https://github.com/toolbox-playground/ansible-zero-to-hero#readme"
+}
