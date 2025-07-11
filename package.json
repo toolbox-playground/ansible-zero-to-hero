@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/toolbox-playground/ansible-zero-to-hero/issues"
   },
-  "homepage": "https://github.com/toolbox-playground/ansible-zero-to-hero#readme"
+  "homepage": "https://github.com/toolbox-playground/ansible-zero-to-hero#readme",
+  "devDependencies": {
+    "standard-version": "^9.5.0"
+  }
 }
