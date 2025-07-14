@@ -16,6 +16,8 @@ on:
 jobs:
   versioning-control:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Permite escrita no repositório
 
     steps:
       - name: Checkout
