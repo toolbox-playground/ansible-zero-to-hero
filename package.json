@@ -1,11 +1,11 @@
 {
   "name": "yes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "![Ansible](imgs/logo_curso.png \"Ansible - From Zero to Hero\")",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "npx standard-version"  
+    "release": "npx standard-version"
   },
   "repository": {
     "type": "git",
