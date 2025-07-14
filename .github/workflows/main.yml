@@ -1,54 +1,66 @@
 name: Versioning Control
 
-on: 
-    push:
-      branches:
-        - main
-      paths-ignore:
-        - 'CHANGELOG.md'
-        - 'package.json'
-        - 'package-lock.json'
-    workflow_dispatch: # Evento que aciona o fluxo de trabalho manualmente
-      inputs: # Define os inputs do fluxo de trabalho
-        name: # Define o input "name"
-          description: 'Trigger manual do Workflow' # Descrição do input
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch: # Evento que aciona o fluxo de trabalho manualmente
+    inputs: # Define os inputs do fluxo de trabalho
+      name: # Define o input "name"
+        description: 'Trigger manual do Workflow' # Descrição do input
 
-jobs: 
-    versioning-control:
-        runs-on: ubuntu-latest
+jobs:
+  versioning-control:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
-              with:
-                token: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Install and Build
-              run: |
-                npm install
+      # --- NOVO PASSO: Configura a versão do Node.js ---
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Você pode ajustar para '20' ou a versão que seu projeto usa
+      # --- FIM DO NOVO PASSO ---
 
-            - name: Configuring Git Account
-              run: |
-                git config --global user.email "pipelines@toolboxdevops.cloud"
-                git config --global user.name "Toolbox Automation"
+      # --- NOVOS PASSOS: Limpeza do cache npm e node_modules ---
+      - name: Clean npm cache and node_modules
+        run: |
+          npm cache clean --force
+          rm -rf node_modules package-lock.json
+      # --- FIM DOS NOVOS PASSOS ---
 
-            - name: Check commit message for specific keywords
-              run: |
-                text=$(git log -1 --no-merges --pretty=%B)
-                echo $text
-                if [[ $text =~ (fix|patch) ]]; then
-                  npm run release -- --release-as patch
-                  echo "{{ Patching Versioning }}"
-                elif [[ $text =~ (BREAKING\ CHANGE) ]]; then
-                  npm run release -- --release-as major
-                  echo "{{ Major Versioning }}"
-                elif [[ $text =~ (feat) ]]; then
-                  echo "{{ Minor Versioning }}"
-                  npm run release -- --release-as minor
-                else
-                  npm run release -- --release-as patch
-                  echo {{ Default Patching Versioning }}
-                fi
-                git push --follow-tags origin main
-                
-                
+      - name: Install and Build
+        run: |
+          npm install
+
+      - name: Configuring Git Account
+        run: |
+          git config --global user.email "pipelines@toolboxdevops.cloud"
+          git config --global user.name "Toolbox Automation"
+
+      - name: Check commit message for specific keywords
+        run: |
+          text=$(git log -1 --no-merges --pretty=%B)
+          echo "$text" # Use aspas duplas para garantir que a variável seja expandida corretamente
+          if [[ "$text" =~ (fix|patch) ]]; then # Use aspas duplas para variáveis em regex
+            npm run release -- --release-as patch
+            echo "{{ Patching Versioning }}"
+          elif [[ "$text" =~ (BREAKING\ CHANGE) ]]; then # Use aspas duplas para variáveis em regex
+            npm run release -- --release-as major
+            echo "{{ Major Versioning }}"
+          elif [[ "$text" =~ (feat) ]]; then # Use aspas duplas para variáveis em regex
+            echo "{{ Minor Versioning }}"
+            npm run release -- --release-as minor
+          else
+            npm run release -- --release-as patch
+            echo "{{ Default Patching Versioning }}"
+          fi
+          git push --follow-tags origin main
