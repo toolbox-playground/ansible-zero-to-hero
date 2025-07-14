@@ -50,3 +50,4 @@ jobs:
                   echo {{ Default Patching Versioning }}
                 fi
                 git push --follow-tags origin main
+                
